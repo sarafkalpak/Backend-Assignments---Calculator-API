@@ -38,7 +38,27 @@ app.post("/add",function (req, res) {
           });
     }
 })
-
+app.post("/sub",function (req, res) {
+    const body = req.body;
+    const final = body.num1 - body.num2;
+    if(typeof body.num1 === "string" || typeof body.num2 === "string") {
+        res.send({
+            status: "error",
+            message: "Invalid data types",
+            difference: final,
+        });
+    } else if(final < -1000000 || body.num1<-1000000 || body.num2<-1000000){
+        res.send({ status: "error", message: "Underflow", difference: final });
+    } else if(final>1000000 ||  body.num1>1000000 || body.num2>1000000) {
+        res.send({ status: "error", message: "Overflow", difference: final });
+    } else {
+        res.send({
+            status: res.statusCode == 200 ? "success" : "failure",
+            message: "the difference of given two numbers",
+            difference: final,
+          });
+    }
+})
 app.post("/multiply",function (req, res) {
     const body = req.body;
     const final = body.num1 * body.num2;
